@@ -124,12 +124,15 @@ async def on_message(message):
         if(status == 1):
             embed = discord.Embed(title="Promoted",description = f'{member.mention}は 運営ランク<<{getperm.mention}>>に昇格しました！！おめでとう！！！！:tada::tada::tada:',color=discord.Colour.from_rgb(0, 255, 255))
             await channel.send(embed=embed)
+            await message.channel.send(embed=embed)
         elif(status == 0):
             embed = discord.Embed(title="Demoted",description = f'{member.mention}は <<{getperm.mention}>>から降格させられました。元に戻れる日を待ちましょう・・・',color=discord.Colour.from_rgb(255, 0, 0))
             await channel.send(embed=embed)
+            await message.channel.send(embed=embed)
         elif(status == 3):
             embed = discord.Embed(title="AllAuthorityDeprivationed",description = f'{member.mention}は 運営職をすべて剥奪されました。',color=discord.Colour.from_rgb(255, 0, 0))
             await channel.send(embed=embed)
+            await message.channel.send(embed=embed)
 
 async def qa_thread(message):
     embed = discord.Embed(title="AccessDenied",description = 'You do not have permisson to use this command',color=discord.Colour.from_rgb(255, 0, 0))
