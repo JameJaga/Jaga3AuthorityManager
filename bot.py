@@ -17,7 +17,7 @@ async def on_message(message):
     getperm = ''
     if message.content.startswith('/amhelp'):
         embed = discord.Embed(title="AuthorityManagerHelp",color=discord.Colour.from_rgb(0,191,255))
-        embed.add_field(name="**SetCommands**",value=f'**/ad-admin**でAdmin権限を付与。\n**/ad-assist**でAssistan権限を付与。\n**/rm-admin**でAdmin権限を剥奪。\n**/rm-assist**でAssistant権限を剥奪。\n**/am-reset**で全権剥奪。',inline=False)
+        embed.add_field(name="**SetCommands**",value=f'**/ad-admin**でAdmin権限を付与。\n**/ad-assist**でAssistan権限を付与。\n**/rm-admin**でAdmin権限を剥奪。\n**/rm-assist**でAssistant権限を剥奪。**/ad-hr**で人事課権限を付与。\n**/rm-hr**で人事課権限を剥奪。\n\n**/am-reset**で全権剥奪。',inline=False)
         await message.channel.send(embed=embed)
     
     
@@ -44,6 +44,33 @@ async def on_message(message):
             await member.remove_roles(role)
             send = 1
             getperm = 'Admin'
+        else:
+            await qa_thread(message)
+            
+            
+    if message.content.startswith('/ad-hr'):
+        member = message.mentions[0]
+        if message.author.guild_permissions.administrator:
+            role = discord.utils.find(lambda r: r.name == '人事課', member.guild.roles)
+            await member.add_roles(role)
+            role = discord.utils.find(lambda r: r.name == '人事課実権', member.guild.roles)
+            await member.add_roles(role)
+            send = 1
+            status = 1
+            getperm = '人事課'
+        else:
+            await qa_thread(message)
+
+
+    if message.content.startswith('/rm-hr'):
+        member = message.mentions[0]
+        if message.author.guild_permissions.administrator:
+            role = discord.utils.find(lambda r: r.name == '人事課', member.guild.roles)
+            await member.remove_roles(role)
+            role = discord.utils.find(lambda r: r.name == '人事課実権', member.guild.roles)
+            await member.remove_roles(role)
+            send = 1
+            getperm = '人事課'
         else:
             await qa_thread(message)
     
