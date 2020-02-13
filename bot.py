@@ -30,7 +30,7 @@ async def on_message(message):
             await member.add_roles(role)
             send = 1
             status = 1
-            getperm = 'Admin'
+            getperm = discord.utils.find(lambda r: r.name == 'Admin', member.guild.roles)
         else:
             await qa_thread(message)
     
@@ -43,7 +43,7 @@ async def on_message(message):
             role = discord.utils.find(lambda r: r.name == 'Admin実権', member.guild.roles)
             await member.remove_roles(role)
             send = 1
-            getperm = 'Admin'
+            getperm = discord.utils.find(lambda r: r.name == 'Admin', member.guild.roles)
         else:
             await qa_thread(message)
             
@@ -57,7 +57,7 @@ async def on_message(message):
             await member.add_roles(role)
             send = 1
             status = 1
-            getperm = '人事課'
+            getperm = discord.utils.find(lambda r: r.name == '人事課', member.guild.roles)
         else:
             await qa_thread(message)
 
@@ -70,7 +70,7 @@ async def on_message(message):
             role = discord.utils.find(lambda r: r.name == '人事課実権', member.guild.roles)
             await member.remove_roles(role)
             send = 1
-            getperm = '人事課'
+            getperm = discord.utils.find(lambda r: r.name == '人事課', member.guild.roles)
         else:
             await qa_thread(message)
     
@@ -84,7 +84,7 @@ async def on_message(message):
             await member.add_roles(role)
             send = 1
             status = 1
-            getperm = 'Assis'
+            getperm = discord.utils.find(lambda r: r.name == 'Assistant', member.guild.roles)
         else:
             await qa_thread(message)
     
@@ -96,7 +96,7 @@ async def on_message(message):
             role = discord.utils.find(lambda r: r.name == 'Assistant実権', member.guild.roles)
             await member.remove_roles(role)
             send = 1
-            getperm = 'Assis'
+            getperm = discord.utils.find(lambda r: r.name == 'Assistant', member.guild.roles)
         else:
             await qa_thread(message)
     if message.content.startswith('/am-reset'):
@@ -110,6 +110,10 @@ async def on_message(message):
             await member.remove_roles(role)
             role = discord.utils.find(lambda r: r.name == 'Admin実権', member.guild.roles)
             await member.remove_roles(role)
+            role = discord.utils.find(lambda r: r.name == '人事課', member.guild.roles)
+            await member.remove_roles(role)
+            role = discord.utils.find(lambda r: r.name == '人事課実権', member.guild.roles)
+            await member.remove_roles(role)
             send = 1
             status = 3
         else:
@@ -118,10 +122,10 @@ async def on_message(message):
     if(send == 1):
         channel = client.get_channel(675572910412267540)
         if(status == 1):
-            embed = discord.Embed(title="Promoted",description = f'{member.mention}は 運営ランク<<{getperm}>>に昇格しました！！おめでとう！！！！:tada::tada::tada:',color=discord.Colour.from_rgb(0, 255, 255))
+            embed = discord.Embed(title="Promoted",description = f'{member.mention}は 運営ランク<<{getperm.mention}>>に昇格しました！！おめでとう！！！！:tada::tada::tada:',color=discord.Colour.from_rgb(0, 255, 255))
             await channel.send(embed=embed)
         elif(status == 0):
-            embed = discord.Embed(title="Demoted",description = f'{member.mention}は <<{getperm}>>から降格させられました。元に戻れる日を待ちましょう・・・',color=discord.Colour.from_rgb(255, 0, 0))
+            embed = discord.Embed(title="Demoted",description = f'{member.mention}は <<{getperm.mention}>>から降格させられました。元に戻れる日を待ちましょう・・・',color=discord.Colour.from_rgb(255, 0, 0))
             await channel.send(embed=embed)
         elif(status == 3):
             embed = discord.Embed(title="AllAuthorityDeprivationed",description = f'{member.mention}は 運営職をすべて剥奪されました。',color=discord.Colour.from_rgb(255, 0, 0))
